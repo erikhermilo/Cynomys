@@ -9,6 +9,6 @@ public class altertas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_altertas);
-        //Te amo Jessi
+        //Te amo Jessi <3
     }
 }
