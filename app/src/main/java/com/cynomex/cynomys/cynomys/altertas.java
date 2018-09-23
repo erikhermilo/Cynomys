@@ -10,5 +10,8 @@ public class altertas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_altertas);
         //Te amo Jessi <3
+
+        // Tambien te AMO
+        // Come calzon
     }
 }
