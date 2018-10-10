@@ -42,7 +42,8 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".altertas" />
         <activity android:name=".lugares" />
-        <activity android:name=".configuracion"></activity>
+        <activity android:name=".configuracion" />
+        <activity android:name=".registrous"></activity>
     </application>
 
 </manifest>

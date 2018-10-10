@@ -12,9 +12,14 @@ public class login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
     }
-public void loguear(View view){
+    public void loguear(View view){
 
-    Intent intent = new Intent(this,MapsActivity.class);
-startActivity(intent);
-}
+        Intent intent = new Intent(this,MapsActivity.class);
+        startActivity(intent);
+    }
+    public void Registro(View view){
+
+        Intent intent = new Intent(this,MapsActivity.class);
+        startActivity(intent);
+    }
 }
