@@ -20,6 +20,7 @@ public class login extends AppCompatActivity {
     public void Registro(View view){
 
         Intent intent = new Intent(this,registrous.class);
+
         startActivity(intent);
     }
 }

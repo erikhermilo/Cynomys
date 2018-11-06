@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
@@ -21,7 +22,10 @@ import org.ksoap2.transport.HttpTransportSE;
 public class registrous extends AppCompatActivity {
 private EditText EDnickna, EDcorreo, EDnombre, EDFechan, EDPassport;
 private RadioButton RADmasculino, RADfemenino;
+private RadioGroup RADgroup;
 private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
+    SoapPrimitive resultString;
+    SoapObject resultObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,9 @@ private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
         EDPassport = (EditText) findViewById(R.id.txtpassword);
         EDFechan = (EditText) findViewById(R.id.datefechan);
 
+        RADgroup = (RadioGroup) findViewById(R.id.radioGroup);
+
+
         RADmasculino = (RadioButton) findViewById(R.id.radioButton);
         RADfemenino = (RadioButton) findViewById(R.id.radioButton2);
 
@@ -42,11 +49,17 @@ private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
         Segundoplano tarea = new Segundoplano();
         tarea.execute();
 
-        Toast.makeText(registrous.this,"Registro: " + resultString.toString(), Toast.LENGTH_LONG).show();
+        if (resultString != null) {
+            //String valTemp= resultString.toString();
+            Toast.makeText(registrous.this, "Registro Exitoso ", Toast.LENGTH_LONG).show();
+            this.finish();
+        }
+        if(resultObj != null)
+            Toast.makeText(registrous.this,"RegistroObj: " + String.valueOf(resultObj), Toast.LENGTH_LONG).show();
 
-        this.finish();
+
     }
-    SoapPrimitive resultString;
+
 
 
     private class Segundoplano extends AsyncTask<Void,Void,Void> {
@@ -60,6 +73,7 @@ private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
         }
         @Override
         protected void onPostExecute(Void result) {
+            
         }
     }
 
@@ -76,8 +90,16 @@ private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
             request.addProperty("nickname", EDnickna.getText().toString());
             request.addProperty("password", EDPassport.getText().toString());
             request.addProperty("fechaN", EDFechan.getText().toString());
-            if(RADmasculino.equals(true)){
-            request.addProperty("sexo", 1);}else{
+
+
+            int radioButtonId = RADgroup.getCheckedRadioButtonId();
+            View radioButton = RADgroup.findViewById(radioButtonId);
+            // int indice = RADgroup.indexOfChild(radioButton);
+
+            if(radioButton==RADmasculino){
+                request.addProperty("sexo", 1);
+            }
+            else{
                 request.addProperty("sexo", 2);
             }
             request.addProperty("nombre", EDnombre.getText().toString());
@@ -89,6 +111,7 @@ private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
             HttpTransportSE transport = new HttpTransportSE(URL);
             transport.call(SOAP_ACTION, soapEnvelope);
             resultString = (SoapPrimitive) soapEnvelope.getResponse();
+            resultObj= (SoapObject) soapEnvelope.getResponse();
 
             return true;
         }catch (Exception ex){
