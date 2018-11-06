@@ -50,8 +50,8 @@ private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
         tarea.execute();
 
         if (resultString != null) {
-            //String valTemp= resultString.toString();
-            Toast.makeText(registrous.this, "Registro Exitoso ", Toast.LENGTH_LONG).show();
+            String valTemp= resultString.toString();
+            Toast.makeText(registrous.this, "Registro: " +valTemp, Toast.LENGTH_LONG).show();
             this.finish();
         }
         if(resultObj != null)
@@ -73,7 +73,7 @@ private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
         }
         @Override
         protected void onPostExecute(Void result) {
-            
+
         }
     }
 
@@ -111,7 +111,9 @@ private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
             HttpTransportSE transport = new HttpTransportSE(URL);
             transport.call(SOAP_ACTION, soapEnvelope);
             resultString = (SoapPrimitive) soapEnvelope.getResponse();
-            resultObj= (SoapObject) soapEnvelope.getResponse();
+            //resultObj= (SoapObject) soapEnvelope.getResponse();
+           // int valorObj= resultObj.getPropertyCount();
+
 
             return true;
         }catch (Exception ex){
