@@ -20,6 +20,7 @@ public class login extends AppCompatActivity {
     private EditText EDcorreo, EDPass;
     SoapPrimitive resultString;
     SoapObject resultObj;
+    Intent intent;
 
 
     @Override
@@ -30,20 +31,16 @@ public class login extends AppCompatActivity {
         EDcorreo= (EditText) findViewById(R.id.editText);
         EDPass= (EditText) findViewById(R.id.editText2);
 
+
     }
     public void loguear(View view){
 
-        Intent intent = new Intent(this,MapsActivity.class);
+        intent = new Intent(this,MapsActivity.class);
 
-        login.Segundoplano tarea = new login.Segundoplano();
-        tarea.execute();
+        Segundoplano tareaLogin = new Segundoplano();
+        tareaLogin.execute();
 
-        if(resultObj != null) {
-            Toast.makeText(login.this, "Rdgsgzfghsfhs " , Toast.LENGTH_LONG).show();
 
-            startActivity(intent);
-
-        }
 
     }
 
@@ -55,23 +52,30 @@ public class login extends AppCompatActivity {
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            logeaff();
+            LogearUsuario();
             return null;
         }
         @Override
         protected void onPostExecute(Void result) {
+
+            if(resultObj != null) {
+                Toast.makeText(login.this, "BIENBENIDO "+resultObj.getProperty("Email") , Toast.LENGTH_LONG).show();
+                startActivity(intent);
+
+            }
+            else
+                Toast.makeText(login.this, "Datos incorrectos", Toast.LENGTH_LONG).show();
 
         }
     }
     public void Registro(View view){
 
         Intent intent = new Intent(this,registrous.class);
-
         startActivity(intent);
     }
 
 
-    public boolean logeaff() {
+    public boolean LogearUsuario() {
 
         String SOAP_ACTION = "http://tempuri.org/LoginUser";
         String METHOD_NAME = "LoginUser";
@@ -82,10 +86,8 @@ public class login extends AppCompatActivity {
 
             SoapObject request =new SoapObject(NAMESPACE, METHOD_NAME);
 
-            request.addProperty("Email", EDcorreo.getText().toString());
-            request.addProperty("Contraseña", EDPass.getText().toString());
-
-
+            request.addProperty("Email",EDcorreo.getText().toString());
+            request.addProperty("Contrasenia", EDPass.getText().toString());
 
             SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             soapEnvelope.dotNet = true;
@@ -93,22 +95,21 @@ public class login extends AppCompatActivity {
             HttpTransportSE transport = new HttpTransportSE(URL);
             transport.call(SOAP_ACTION, soapEnvelope);
 
-            //resultString = (SoapPrimitive) soapEnvelope.getResponse();
+
+            // SoapObject response = (SoapObject) soapEnvelope.bodyIn;
+            // System.out.println("response"+response.toString() + "  "+response.getProperty(0).toString());
 
             resultObj= (SoapObject) soapEnvelope.getResponse();
 
 
             if (resultObj!=null)
-                Toast.makeText(login.this,"Usuario inseertado " , Toast.LENGTH_LONG).show();
-
-
-
-
             return true;
+            else
+                return false;
 
         }catch (Exception ex){
-            Toast.makeText(login.this,"ERROR: " + ex.getMessage(), Toast.LENGTH_LONG).show();
-
+            System.out.println("------------------------------------");
+            System.out.println("Error!!!  "+ ex.getMessage());
             return false;
 
         }
