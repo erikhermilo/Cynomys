@@ -60,7 +60,11 @@ public class login extends AppCompatActivity {
 
             if(resultObj != null) {
                 Toast.makeText(login.this, "BIENBENIDO "+resultObj.getProperty("Email") , Toast.LENGTH_LONG).show();
+
+                intent.putExtra("idUsuario", Integer.parseInt(resultObj.getProperty("IdUsuario").toString()));
                 startActivity(intent);
+
+
 
             }
             else

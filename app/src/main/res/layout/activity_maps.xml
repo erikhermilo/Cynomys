@@ -31,7 +31,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,13 +49,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/transparent"
-                android:drawableTint="@android:color/black"
+                android:backgroundTint="@color/colorPrimary"
                 android:drawableTop="@android:drawable/ic_menu_manage"
+                android:drawableTint="@color/common_google_signin_btn_text_dark_default"
                 android:onClick="config"
+                android:shadowColor="@android:color/transparent"
                 android:text="Configuración"
                 android:textSize="12sp"
-                android:shadowColor="@android:color/transparent"
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="463dp" />
 
@@ -63,12 +64,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/transparent"
-                android:drawableTint="@android:color/holo_orange_light"
+                android:backgroundTint="@color/colorPrimary"
                 android:drawableTop="@android:drawable/stat_sys_warning"
+                android:drawableTint="@android:color/holo_orange_light"
                 android:onClick="alertas"
-                android:text="Alertas"
                 android:shadowColor="@android:color/transparent"
+                android:text="Alertas"
                 android:textSize="12sp"
                 tools:layout_editor_absoluteX="153dp"
                 tools:layout_editor_absoluteY="463dp" />
@@ -78,12 +79,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/transparent"
-                android:drawableTint="@android:color/black"
+                android:backgroundTint="@color/colorPrimary"
                 android:drawableTop="@android:drawable/ic_menu_myplaces"
+                android:drawableTint="@color/common_google_signin_btn_text_dark_default"
                 android:onClick="lugares"
-                android:text="Lugares"
                 android:shadowColor="@android:color/transparent"
+                android:text="Lugares"
                 android:textSize="12sp"
                 tools:layout_editor_absoluteX="300dp"
                 tools:layout_editor_absoluteY="463dp" />

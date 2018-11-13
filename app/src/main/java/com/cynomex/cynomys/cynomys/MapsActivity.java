@@ -1,10 +1,14 @@
 package com.cynomex.cynomys.cynomys;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -31,47 +35,53 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class MapsActivity extends AppCompatActivity
         implements
-        OnMapReadyCallback,
-        GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener,
-        GoogleMap.OnCameraMoveStartedListener,
-        GoogleMap.OnCameraMoveListener,
-        GoogleMap.OnCameraMoveCanceledListener,
-        GoogleMap.OnCameraIdleListener {
+        OnMapReadyCallback {
 
 
-     private GoogleMap mMap;
-     private SupportMapFragment mapFrag;
-     private LocationRequest mLocationRequest;
-     private Location mLastLocation;
-     private Marker mCurrLocationMarker;
-     private FusedLocationProviderClient mFusedLocationClient;
+    private GoogleMap mMap;
+    private LocationManager locManager;
+    private Double myLat, myLon;
+    private List<Modelo.Alerta> alertas;
+    int idUsuario;
 
 
 
-
-
-
-             @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
          try {
+
+             Intent intentLogin = getIntent();
+             idUsuario = intentLogin.getIntExtra("idUsuario",0);
+
+             if (idUsuario == 0){
+                 Intent intent = new Intent(this,login.class);
+                 startActivity(intent);
+             }
              super.onCreate(savedInstanceState);
              setContentView(R.layout.activity_maps);
-
 
              // Obtain the SupportMapFragment and get notified when the map is ready to be used.
              SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                      .findFragmentById(R.id.map);
+
 
              mapFragment.getMapAsync(this);
 
@@ -82,17 +92,6 @@ public class MapsActivity extends AppCompatActivity
 
 
     }
-/*
-     @Override
-     public void onPause() {
-         super.onPause();
-
-         //stop location updates when Activity is no longer active
-         if (mFusedLocationClient != null) {
-             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-         }
-     }
-*/
 
     /**
      * Manipulates the map once available.
@@ -108,58 +107,106 @@ public class MapsActivity extends AppCompatActivity
         mMap= googleMap;
 
 
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
         }
 
+        Segundoplano ss = new Segundoplano();
+        ss.execute();
+
+        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        myLat = loc.getLatitude();
+        myLon = loc.getLongitude();
+
+        LatLng latLng = new LatLng(myLat, myLon);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+        mMap.addMarker(new MarkerOptions().position(latLng).title("Yo").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        for (int i=0; i < alertas.size(); i++){
+            Modelo.Alerta obj = alertas.get(i);
+            LatLng ubicacion = new LatLng(Double.parseDouble(obj.getLat()), Double.parseDouble(obj.getLon()));
 
-        mMap.setOnCameraIdleListener(this);
-        mMap.setOnCameraMoveStartedListener(this);
-        mMap.setOnCameraMoveListener(this);
-        mMap.setOnCameraMoveCanceledListener(this);
+            mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+        }
+
 
         // We will provide our own zoom controls.
-        mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-
-        Double lat, lon;
-        lat=mFusedLocationClient.getLastLocation().getResult().getLatitude();
-        lon = mFusedLocationClient.getLastLocation().getResult().getLongitude();
-
-
-        // You can now create a LatLng Object for use with maps
-        LatLng latLng = new LatLng(lat, lon);
-        // Show Sydney
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+        mMap.getUiSettings().setCompassEnabled(true);
 
 
     }
 
 
+    private class Segundoplano extends AsyncTask<Void,Void,Void> {
+        @Override
+        protected void onPreExecute() {
+            alertas = new ArrayList<>();
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            leerAlertas();
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+
+        }
+    }
+
+    public void leerAlertas() {
+
+        String SOAP_ACTION = "http://tempuri.org/GetAllMarcas";
+        String METHOD_NAME = "GetAllMarcas";
+        String NAMESPACE = "http://tempuri.org/";
+        String URL = "http://192.168.137.1:26314/WebService1.asmx";
+
+        try{
+
+            SoapObject request =new SoapObject(NAMESPACE, METHOD_NAME);
+
+            SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            soapEnvelope.dotNet = true;
+            soapEnvelope.setOutputSoapObject(request);
+            HttpTransportSE transport = new HttpTransportSE(URL);
+            transport.call(SOAP_ACTION, soapEnvelope);
 
 
+            // SoapObject response = (SoapObject) soapEnvelope.bodyIn;
+            // System.out.println("response"+response.toString() + "  "+response.getProperty(0).toString());
 
-     @Override
-     public boolean onMyLocationButtonClick() {
-         Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
-         // Return false so that we don't consume the event and the default behavior still occurs
-         // (the camera animates to the user's current position).
-
-         return false;
-     }
-
-     @Override
-     public void onMyLocationClick(@NonNull Location location) {
-         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
-     }
+            SoapObject resultObj= (SoapObject) soapEnvelope.getResponse();
 
 
+            if (resultObj!=null){
+
+                for (int i=0; i < resultObj.getPropertyCount() ; i++){
+                    SoapObject obj= (SoapObject) resultObj.getProperty(i);
+
+                    Modelo.Alerta modAlerta = new Modelo.Alerta();
+                    modAlerta.setLat(obj.getProperty("Lat").toString());
+                    modAlerta.setLon(obj.getProperty("Lon").toString());
+                    modAlerta.setIdTipoAlerta(Integer.parseInt(obj.getProperty("IdTipoAlerta").toString()));
+                    alertas.add(modAlerta);
+
+                }
+
+            }
+
+
+        }catch (Exception ex){
+            System.out.println("------------------------------------");
+            System.out.println("Error!!!  "+ ex.getMessage());
+
+
+        }
+    }
 
 
     public void lugares(View view){
@@ -170,8 +217,17 @@ public class MapsActivity extends AppCompatActivity
 
     public void alertas(View view){
 
-        Intent intent = new Intent(this,altertas.class);
-        startActivity(intent);
+
+        Intent intentAlerta = new Intent(this,altertas.class);
+        String lon,lat;
+        lon= myLon.toString();
+        lat=myLat.toString();
+        intentAlerta.putExtra("lon",lon);
+        intentAlerta.putExtra("lat",lat);
+        intentAlerta.putExtra("idUsuario", idUsuario);
+
+
+        startActivity(intentAlerta);
     }
 
     public void config(View view){
@@ -182,24 +238,5 @@ public class MapsActivity extends AppCompatActivity
     }
 
 
-    @Override
-    public void onCameraIdle() {
-
-    }
-
-    @Override
-    public void onCameraMoveCanceled() {
-
-    }
-
-    @Override
-    public void onCameraMove() {
-
-    }
-
-    @Override
-    public void onCameraMoveStarted(int i) {
-
-    }
 
 }

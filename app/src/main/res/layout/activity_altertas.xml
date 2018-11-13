@@ -19,6 +19,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableTop="@drawable/icons8fraude48"
+            android:onClick="onClick_btnRobo"
             android:text="Robo" />
 
         <Button
@@ -27,6 +28,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableTop="@drawable/icons8pistola48"
+            android:onClick="onClick_btnAsalto"
             android:text="Asalto" />
 
         <Button
@@ -35,6 +37,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableTop="@drawable/icons8hombretomadeposesion48"
+            android:onClick="onClick_btndisturbio"
             android:text="Disturbio" />
     </LinearLayout>
 
@@ -50,6 +53,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableTop="@drawable/icons8incendios48"
+            android:onClick="onClick_btnincendio"
             android:text="Incendio" />
 
         <Button
@@ -58,6 +62,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableTop="@drawable/icons8combate48"
+            android:onClick="onClick_btnviolencia"
             android:text="Violencia" />
 
         <Button
@@ -66,6 +71,7 @@
             android:layout_height="match_parent"
             android:drawableTop="@drawable/icons8manosatadas48"
             android:layout_weight="1"
+            android:onClick="onClick_btnsecuestro"
             android:text="Secuestro" />
     </LinearLayout>
 
@@ -81,6 +87,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableTop="@drawable/icons8racismo48"
+            android:onClick="onClick_btnacoso"
             android:text="Acoso sexual" />
 
         <Button
@@ -89,6 +96,7 @@
             android:layout_height="match_parent"
             android:drawableTop="@drawable/icons8reparto48"
             android:layout_weight="1"
+            android:onClick="onClick_btnherido"
             android:text="Herido" />
 
         <Button
@@ -97,6 +105,7 @@
             android:layout_height="match_parent"
             android:drawableTop="@drawable/icons8ambulancia48"
             android:layout_weight="1"
+            android:onClick="onClick_btnotro"
             android:text="Otro" />
 
     </LinearLayout>
