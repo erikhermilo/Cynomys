@@ -16,7 +16,7 @@ public class Robo2 extends AppCompatActivity {
     public void Siguentevista(View view){
         Intent intent = new Intent(this,Robo3.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     public void Anteriorvista(View view){

@@ -16,7 +16,7 @@ public class Asalto2 extends AppCompatActivity {
     public void Siguentevista(View view){
         Intent intent = new Intent(this,Asalto3.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     public void Anteriorvista(View view){
@@ -26,6 +26,6 @@ public class Asalto2 extends AppCompatActivity {
     @Override
     public void finish(){
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }
