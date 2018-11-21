@@ -46,7 +46,28 @@
         <activity android:name=".altertas" />
         <activity android:name=".lugares" />
         <activity android:name=".configuracion" />
-        <activity android:name=".registrous"></activity>
+        <activity android:name=".registrous"/>
+        <activity android:name=".Acoso1"/>
+        <activity android:name=".Acoso2"/>
+        <activity android:name=".Asalto1"/>
+        <activity android:name=".Asalto2"/>
+        <activity android:name=".Asalto3"/>
+        <activity android:name=".Disturbio1"/>
+        <activity android:name=".Disturbio2"/>
+        <activity android:name=".Herido1"/>
+        <activity android:name=".Herido2"/>
+        <activity android:name=".Incendio1"/>
+        <activity android:name=".Incendio2"/>
+        <activity android:name=".Robo1"/>
+        <activity android:name=".Robo2"/>
+        <activity android:name=".Robo3"/>
+        <activity android:name=".Secuestro1"/>
+        <activity android:name=".Secuestro2"/>
+        <activity android:name=".Violencia1"/>
+        <activity android:name=".Violencia2"/>
+        <activity android:name=".Otro1">
+
+        </activity>
 
 
         <service
