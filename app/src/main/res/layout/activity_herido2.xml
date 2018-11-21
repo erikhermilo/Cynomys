@@ -50,5 +50,5 @@
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/Herido2" />
+        app:srcCompat="@drawable/herido2" />
 </android.support.constraint.ConstraintLayout>

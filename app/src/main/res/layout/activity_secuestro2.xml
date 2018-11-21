@@ -52,5 +52,5 @@ Limitar contactos telefónicos para evitar fugas de información."
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/Secuestro2" />
+        app:srcCompat="@drawable/secuestro2" />
 </android.support.constraint.ConstraintLayout>

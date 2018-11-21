@@ -51,5 +51,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/Herido1" />
+        app:srcCompat="@drawable/herido1" />
 </android.support.constraint.ConstraintLayout>

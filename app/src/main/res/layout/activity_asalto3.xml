@@ -49,5 +49,5 @@
         app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/Asalto3" />
+        app:srcCompat="@drawable/asalto3" />
 </android.support.constraint.ConstraintLayout>

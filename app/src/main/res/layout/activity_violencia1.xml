@@ -52,5 +52,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/Violencia1" />
+        app:srcCompat="@drawable/violencia1" />
 </android.support.constraint.ConstraintLayout>
