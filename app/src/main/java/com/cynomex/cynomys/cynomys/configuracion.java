@@ -1,9 +1,11 @@
 package com.cynomex.cynomys.cynomys;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,11 @@ public class configuracion extends AppCompatActivity {
         actionLabel = (TextView) findViewById(R.id.txtMensaje);
     }
 
+    public void GuiasVistas(View view){
+
+        Intent intent = new Intent(this,guias.class);
+        startActivity(intent);
+    }
 
     @Override
         // catches the onKeyDown button event
