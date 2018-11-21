@@ -15,7 +15,7 @@ public class Incendio1 extends AppCompatActivity {
 
 
     public void Siguentevista(View view){
-        Intent intent = new Intent(this,Asalto2.class);
+        Intent intent = new Intent(this,Incendio2.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
     }
