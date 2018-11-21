@@ -50,6 +50,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="0dp"
         android:layout_height="143dp"
         android:layout_marginStart="8dp"
@@ -66,8 +67,8 @@
             android:layout_weight="1"
 
             android:backgroundTint="@android:color/transparent"
-            android:drawableTint="@android:color/black"
             android:drawableTop="@android:drawable/stat_sys_vp_phone_call_on_hold"
+            android:drawableTint="@android:color/black"
             android:text="Contactos" />
 
         <Button
@@ -77,8 +78,8 @@
             android:layout_weight="1"
 
             android:backgroundTint="@android:color/transparent"
-            android:drawableTint="@android:color/black"
             android:drawableTop="@android:drawable/ic_dialog_info"
+            android:drawableTint="@android:color/black"
             android:text="Guias" />
 
         <Button
@@ -88,8 +89,22 @@
             android:layout_weight="1"
 
             android:backgroundTint="@android:color/transparent"
-            android:drawableTint="@android:color/black"
             android:drawableTop="@android:drawable/ic_menu_close_clear_cancel"
+            android:drawableTint="@android:color/black"
             android:text="Reportes" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtMensaje"
+        android:layout_width="129dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Presiona un BOTON"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

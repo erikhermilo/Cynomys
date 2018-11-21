@@ -14,34 +14,47 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import Modelo.Alerta;
+import ServiciosWeb.WebService;
 
 public class altertas extends AppCompatActivity {
 
     int tipoAlerta;
     int idUsuario;
     SoapPrimitive ejecucionSP;
+    Intent intentMaps;
+
+    WebService webService;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        webService = new WebService();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_altertas);
         tipoAlerta = 0;
 
-        Intent intentMaps= getIntent();
+        intentMaps = getIntent();
         idUsuario = intentMaps.getIntExtra("idUsuario",0);
 
-        Intent intent = new Intent(this,MapsActivity.class);
+        //Intent intent = new Intent(this,MapsActivity.class);
     }
 
     private class Segundoplano extends AsyncTask<Void,Void,Void> {
         @Override
         protected void onPreExecute() {
+
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            if (tipoAlerta != 0)
-                registrarAlerta(tipoAlerta);
+            if (tipoAlerta != 0){
+                webService = new WebService();
+                Intent intent = getIntent();
+                String lon= intent.getStringExtra("lon");
+                String lat= intent.getStringExtra("lat");
+                ejecucionSP= webService.registrarAlerta(idUsuario,tipoAlerta,lon,lat);
+            }
+
             else
                 Toast.makeText(altertas.this, "Ups parece que ha habido un error :/", Toast.LENGTH_LONG).show();
 
@@ -52,7 +65,7 @@ public class altertas extends AppCompatActivity {
 
             if(ejecucionSP != null) {
                 Toast.makeText(altertas.this, "Alerta registrada " , Toast.LENGTH_LONG).show();
-
+                finish();
             }
             else
                 Toast.makeText(altertas.this, "Ups :/", Toast.LENGTH_LONG).show();

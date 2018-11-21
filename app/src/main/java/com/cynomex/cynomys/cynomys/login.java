@@ -1,10 +1,17 @@
 package com.cynomex.cynomys.cynomys;
 
+import android.app.ActivityManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,14 +24,26 @@ import org.ksoap2.transport.HttpTransportSE;
 
 
 public class login extends AppCompatActivity {
+
+    private Context thisContext=this;
     private EditText EDcorreo, EDPass;
     SoapPrimitive resultString;
     SoapObject resultObj;
     Intent intent;
-
+    Button mostrarNotificacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (!isMyServiceRunning(ServiceApp.class)){ //método que determina si el servicio ya está corriendo o no
+            startService(new Intent(thisContext, ServiceApp.class));
+            Log.d("App", "Service started");
+        } else {
+            Log.d("App", "Service already running");
+        }
+
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -32,16 +51,29 @@ public class login extends AppCompatActivity {
         EDPass= (EditText) findViewById(R.id.editText2);
 
 
+
+
+
     }
+
+    private boolean isMyServiceRunning(Class<ServiceApp> serviceAppClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceAppClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
     public void loguear(View view){
 
+       // startService(new Intent(thisContext, ServiceApp.class));
         intent = new Intent(this,MapsActivity.class);
 
         Segundoplano tareaLogin = new Segundoplano();
         tareaLogin.execute();
-
-
-
     }
 
 
@@ -59,6 +91,27 @@ public class login extends AppCompatActivity {
         protected void onPostExecute(Void result) {
 
             if(resultObj != null) {
+                NotificationCompat.Builder mBuilder;
+                NotificationManager mNotifyMgr =(NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+
+                int icono = R.mipmap.ic_launcher;
+                Intent i=new Intent(login.this, login.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(login.this, 0, i, 0);
+
+                mBuilder =new NotificationCompat.Builder(getApplicationContext())
+                        .setContentIntent(pendingIntent)
+                        .setSmallIcon(icono)
+                        .setContentTitle("Titulo")
+                        .setContentText("Hola que tal?")
+                        .setVibrate(new long[] {100, 250, 100, 500})
+                        .setAutoCancel(true);
+
+
+                mNotifyMgr.notify(1, mBuilder.build());
+
+
+
+
                 Toast.makeText(login.this, "BIENBENIDO "+resultObj.getProperty("Email") , Toast.LENGTH_LONG).show();
 
                 intent.putExtra("idUsuario", Integer.parseInt(resultObj.getProperty("IdUsuario").toString()));

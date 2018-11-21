@@ -34,6 +34,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
+
+
+
+
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -49,6 +53,8 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+
+import ServiciosWeb.WebService;
 
 
 public class MapsActivity extends AppCompatActivity
@@ -67,7 +73,6 @@ public class MapsActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
          try {
-
              Intent intentLogin = getIntent();
              idUsuario = intentLogin.getIntExtra("idUsuario",0);
 
@@ -75,20 +80,38 @@ public class MapsActivity extends AppCompatActivity
                  Intent intent = new Intent(this,login.class);
                  startActivity(intent);
              }
+             Segundoplano ss = new Segundoplano();
+             ss.execute();
+
              super.onCreate(savedInstanceState);
              setContentView(R.layout.activity_maps);
-
-             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                     .findFragmentById(R.id.map);
-
-
-             mapFragment.getMapAsync(this);
 
          }catch(Exception e){
              System.out.println("-------------------------------------------------------------------");
              System.out.println("ERROR: " + e.getMessage());
          }
+
+       /* Thread thread = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(5000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Segundoplano ss = new Segundoplano();
+                                ss.execute();
+
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+                thread.start();
+         */
 
 
     }
@@ -112,8 +135,7 @@ public class MapsActivity extends AppCompatActivity
             return;
         }
 
-        Segundoplano ss = new Segundoplano();
-        ss.execute();
+
 
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -123,23 +145,60 @@ public class MapsActivity extends AppCompatActivity
 
         LatLng latLng = new LatLng(myLat, myLon);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
-        mMap.addMarker(new MarkerOptions().position(latLng).title("Yo").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        // We will provide our own zoom controls.
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.setMyLocationEnabled(true);
+
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
+        //mMap.addMarker(new MarkerOptions().position(latLng).title("Yo").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
 
         for (int i=0; i < alertas.size(); i++){
             Modelo.Alerta obj = alertas.get(i);
             LatLng ubicacion = new LatLng(Double.parseDouble(obj.getLat()), Double.parseDouble(obj.getLon()));
+            switch (obj.getIdTipoAlerta()){
+                case 1:
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8fraude48)));
+                    break;
+                case 2:
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8pistola48)));
+                    break;
+                case 3:
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8hombretomadeposesion48)));
+                    break;
+                case 4:
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8incendios48)));
+                    break;
+                case 5:
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8combate48)));
+                    break;
+                case 6:
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8manosatadas48)));
+                    break;
+                case 7:
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8racismo48)));
+                    break;
+                case 8:
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8reparto48)));
+                    break;
+                case 9:
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8ambulancia48)));
+                    break;
 
-            mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+            }
+
         }
+}
 
-
-        // We will provide our own zoom controls.
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.getUiSettings().setCompassEnabled(true);
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        Segundoplano ss = new Segundoplano();
+        ss.execute();
 
     }
 
@@ -156,6 +215,14 @@ public class MapsActivity extends AppCompatActivity
         }
         @Override
         protected void onPostExecute(Void result) {
+
+
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+
+
+            mapFragment.getMapAsync(MapsActivity.this::onMapReady);
 
         }
     }

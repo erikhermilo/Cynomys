@@ -49,15 +49,6 @@ private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
         Segundoplano tarea = new Segundoplano();
         tarea.execute();
 
-        if (resultString != null) {
-            String valTemp= resultString.toString();
-            Toast.makeText(registrous.this, "Registro: " +valTemp, Toast.LENGTH_LONG).show();
-            this.finish();
-        }
-        if(resultObj != null)
-            Toast.makeText(registrous.this,"RegistroObj: " + String.valueOf(resultObj), Toast.LENGTH_LONG).show();
-
-
     }
 
 
@@ -73,6 +64,13 @@ private String Strnick, Strcorreo, Strnombre, Strfechan, Strpassport;
         }
         @Override
         protected void onPostExecute(Void result) {
+            if (resultString != null) {
+                String valTemp= resultString.toString();
+                Toast.makeText(registrous.this, "Registro: " +valTemp, Toast.LENGTH_LONG).show();
+                finish();
+            }
+            if(resultObj != null)
+                Toast.makeText(registrous.this,"RegistroObj: " + String.valueOf(resultObj), Toast.LENGTH_LONG).show();
 
         }
     }
