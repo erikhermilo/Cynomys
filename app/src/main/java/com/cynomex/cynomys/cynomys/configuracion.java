@@ -1,24 +1,38 @@
 package com.cynomex.cynomys.cynomys;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import Modelo.ContactoEmergencia;
 import ServiciosWeb.WebService;
+
+import android.telephony.SmsManager;
 
 public class configuracion extends AppCompatActivity {
 
-
+    Context context= this;
     TextView actionLabel;
-    int counter = 0;
+    int idUsuario;
+    Intent intent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        intent = getIntent();
+        idUsuario = intent.getIntExtra("idUsuario",0);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
@@ -27,9 +41,66 @@ public class configuracion extends AppCompatActivity {
 
     public void GuiasVistas(View view){
 
-        Intent intent = new Intent(this,guias.class);
+        intent = new Intent(this,guias.class);
+        intent.putExtra("idUsuario", idUsuario);
         startActivity(intent);
     }
+
+
+    public void Alertas(View view){
+
+        intent = new Intent(this,altertas.class);
+        intent.putExtra("idUsuario", idUsuario);
+        startActivity(intent);
+    }
+
+    private class SegundoplanoContacto extends AsyncTask<Void,Void,Void> {
+        WebService wb = new WebService();
+        ContactoEmergencia contactoEmergencia;
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            contactoEmergencia = wb.GetContacto(idUsuario);
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+
+            if( contactoEmergencia == null ) {
+
+                intent = new Intent(context, ContactoRegistro.class);
+                intent.putExtra("idUsuario", idUsuario);
+                startActivity(intent);
+            }
+            else {
+                intent = new Intent(context, ContactoActualizar.class);
+                intent.putExtra("idUsuario", idUsuario);
+
+                intent.putExtra("getIdContactoEmergencia",contactoEmergencia.getIdContactoEmergencia() );
+                intent.putExtra("getNombre",contactoEmergencia.getNombre() );
+                intent.putExtra("getEmail",contactoEmergencia.getEmail() );
+                intent.putExtra("getTelefono", contactoEmergencia.getTelefono() );
+                intent.putExtra("getIdUsuario", contactoEmergencia.getIdUsuario() );
+
+                startActivity(intent);
+            }
+
+        }
+    }
+
+
+    public void Contacto(View view){
+
+        SegundoplanoContacto segundoplanoContacto = new SegundoplanoContacto();
+        segundoplanoContacto.execute();
+
+    }
+
 
     @Override
         // catches the onKeyDown button event
@@ -99,18 +170,18 @@ public class configuracion extends AppCompatActivity {
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        Thread.sleep(1000);
+                        Thread.sleep(5000);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 WebService wb = new WebService();
-                                wb.RegistrarUsuario2(
+                                wb.RegistrarUsuario(
                                         "b",
                                         "b",
+                                        "b@mail.com",
                                         "2018-12-12",
-                                        2,
                                         "b",
-                                        "b@mail.com"
+                                        2
                                 );
                             }
                         });
@@ -121,6 +192,28 @@ public class configuracion extends AppCompatActivity {
         };
         thread.start();
 
+    }
+
+    public void enviarSMS(View view){
+        if ( checkSMSStatePermission() ){
+            String phone = "5523730504";
+            SmsManager sms = SmsManager.getDefault();
+            String text = "TE INFINITO HERMI BONITO <3";
+            sms.sendTextMessage(phone, null, text , null, null);
+        }
+    }
+
+    private boolean checkSMSStatePermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(
+                this, Manifest.permission.SEND_SMS);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Mensaje", "No se tiene permiso para enviar SMS.");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 225);
+            return false;
+        } else {
+            Log.i("Mensaje", "Se tiene permiso para enviar SMS!");
+            return true;
+        }
     }
 
 

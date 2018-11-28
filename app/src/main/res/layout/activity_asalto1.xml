@@ -15,6 +15,7 @@
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="8dp"
         android:lineSpacingExtra="8sp"
+        android:text="1. Trate de mantener la calma \n 2. Evite mirar a los ojos a los delincuentes  \n 3. No se resista"
         android:textAlignment="textStart"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -23,7 +24,7 @@
         app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView5"
-        tools:text="1. Trate de mantener la calma \n 2. Evite mirar a los ojos a los delincuentes  \n 3. No se resista" />
+        app:layout_constraintVertical_bias="0.176" />
 
     <ImageButton
         android:id="@+id/imageButton"

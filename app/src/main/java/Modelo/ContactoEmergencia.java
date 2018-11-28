@@ -5,7 +5,7 @@ public class ContactoEmergencia {
     private String nombre;
     private String telefono;
     private String email;
-    private int idsexo;
+    private int idUsuario;
     private int prioridad;
 
 
@@ -41,13 +41,7 @@ public class ContactoEmergencia {
         this.email = email;
     }
 
-    public int getIdsexo() {
-        return idsexo;
-    }
 
-    public void setIdsexo(int idsexo) {
-        this.idsexo = idsexo;
-    }
 
     public int getPrioridad() {
         return prioridad;
@@ -55,5 +49,13 @@ public class ContactoEmergencia {
 
     public void setPrioridad(int prioridad) {
         this.prioridad = prioridad;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

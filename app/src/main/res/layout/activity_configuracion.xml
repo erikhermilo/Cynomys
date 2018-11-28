@@ -34,8 +34,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@android:color/transparent"
-            android:drawableTint="@android:color/black"
             android:drawableTop="@android:drawable/stat_sys_warning"
+            android:drawableTint="@android:color/black"
+            android:onClick="Alertas"
             android:text="Alertas" />
 
         <Button
@@ -69,6 +70,7 @@
             android:backgroundTint="@android:color/transparent"
             android:drawableTop="@android:drawable/stat_sys_vp_phone_call_on_hold"
             android:drawableTint="@android:color/black"
+            android:onClick="Contacto"
             android:text="Contactos" />
 
         <Button

@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "461452483605",
+    "firebase_url": "https://sunny-aspect-212805.firebaseio.com",
+    "project_id": "sunny-aspect-212805",
+    "storage_bucket": "sunny-aspect-212805.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461452483605:android:694a97e3aa9d7608",
+        "android_client_info": {
+          "package_name": "com.cynomex.cynomys.cynomys"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461452483605-isk233ognul4a77hcgsl3vlofbj9u54i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cynomex.cynomys.cynomys",
+            "certificate_hash": "7a2d8c4b895bdfb05a4aa0027165f996b2dd6e67"
+          }
+        },
+        {
+          "client_id": "461452483605-gd7p7qsqcs2nfudna7l1s4v83s843cu5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cynomex.cynomys.cynomys",
+            "certificate_hash": "5f2c7f8e89e9d339f62f1fa2448b2d214783ee04"
+          }
+        },
+        {
+          "client_id": "461452483605-5ruja0th0lkpb50r6mddubms1ucgv2e0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cynomex.cynomys.cynomys",
+            "certificate_hash": "8b9084e23279b484509f698cc436791683f33d62"
+          }
+        },
+        {
+          "client_id": "461452483605-fc9kngbbqhop5qj262k7ksaa3t2tcgd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyhH0CH0OQ2G36G62RCn65_xLBd__G1co"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461452483605-fc9kngbbqhop5qj262k7ksaa3t2tcgd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

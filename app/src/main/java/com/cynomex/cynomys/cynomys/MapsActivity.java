@@ -135,8 +135,6 @@ public class MapsActivity extends AppCompatActivity
             return;
         }
 
-
-
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
@@ -279,11 +277,11 @@ public class MapsActivity extends AppCompatActivity
     public void lugares(View view){
 
         Intent intent = new Intent(this,lugares.class);
+        intent.putExtra("idUsuario", idUsuario);
         startActivity(intent);
     }
 
     public void alertas(View view){
-
 
         Intent intentAlerta = new Intent(this,altertas.class);
         String lon,lat;
@@ -293,14 +291,13 @@ public class MapsActivity extends AppCompatActivity
         intentAlerta.putExtra("lat",lat);
         intentAlerta.putExtra("idUsuario", idUsuario);
 
-
         startActivity(intentAlerta);
     }
 
     public void config(View view){
 
-
         Intent intent = new Intent(this,configuracion.class);
+        intent.putExtra("idUsuario", idUsuario);
         startActivity(intent);
     }
 
