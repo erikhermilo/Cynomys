@@ -11,8 +11,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<!-- SMS -->
-    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -46,65 +44,44 @@
         <activity android:name=".altertas" />
         <activity android:name=".lugares" />
         <activity android:name=".configuracion" />
-        <activity android:name=".registrous"/>
-        <activity android:name=".Acoso1"/>
-        <activity android:name=".Acoso2"/>
-        <activity android:name=".Asalto1"/>
-        <activity android:name=".Asalto2"/>
-        <activity android:name=".Asalto3"/>
-        <activity android:name=".Disturbio1"/>
-        <activity android:name=".Disturbio2"/>
-        <activity android:name=".Herido1"/>
-        <activity android:name=".Herido2"/>
-        <activity android:name=".Incendio1"/>
-        <activity android:name=".Incendio2"/>
-        <activity android:name=".Robo1"/>
-        <activity android:name=".Robo2"/>
-        <activity android:name=".Robo3"/>
-        <activity android:name=".Secuestro1"/>
-        <activity android:name=".Secuestro2"/>
-        <activity android:name=".Violencia1"/>
-        <activity android:name=".Violencia2"/>
-        <activity android:name=".guias"/>
-        <activity android:name=".Otro1"/>
-        <activity android:name=".ContactoRegistro"/>
-        <activity android:name=".ContactoActualizar"/>
-
-
+        <activity android:name=".registrous" />
+        <activity android:name=".Acoso1" />
+        <activity android:name=".Acoso2" />
+        <activity android:name=".Asalto1" />
+        <activity android:name=".Asalto2" />
+        <activity android:name=".Asalto3" />
+        <activity android:name=".Disturbio1" />
+        <activity android:name=".Disturbio2" />
+        <activity android:name=".Herido1" />
+        <activity android:name=".Herido2" />
+        <activity android:name=".Incendio1" />
+        <activity android:name=".Incendio2" />
+        <activity android:name=".Robo1" />
+        <activity android:name=".Robo2" />
+        <activity android:name=".Robo3" />
+        <activity android:name=".Secuestro1" />
+        <activity android:name=".Secuestro2" />
+        <activity android:name=".Violencia1" />
+        <activity android:name=".Violencia2" />
+        <activity android:name=".guias" />
+        <activity android:name=".Otro1"></activity>
 
         <service
             android:name=".ServiceApp"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true"></service>
+        <service android:name=".FirebaseService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
         </service>
 
         <receiver android:name=".BootBroadcast">
-            <intent-filter >
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-
-
-        <service android:name=".FireIDService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".FireBaseMsgService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-
-
-
-
-
     </application>
-
 
 </manifest>
