@@ -93,6 +93,7 @@
             android:backgroundTint="@android:color/transparent"
             android:drawableTop="@android:drawable/ic_menu_close_clear_cancel"
             android:drawableTint="@android:color/black"
+            android:onClick="Denuncia"
             android:text="Reportes" />
     </LinearLayout>
 

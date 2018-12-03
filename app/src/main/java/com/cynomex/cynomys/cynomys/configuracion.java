@@ -54,13 +54,20 @@ public class configuracion extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void Denuncia(View view){
+
+        intent = new Intent(this, denuncia.class);
+        intent.putExtra("idUsuario", idUsuario);
+        startActivity(intent);
+    }
+
     private class SegundoplanoContacto extends AsyncTask<Void,Void,Void> {
         WebService wb = new WebService();
         ContactoEmergencia contactoEmergencia;
 
         @Override
         protected void onPreExecute() {
-
+            checkSMSStatePermission();
         }
         @Override
         protected Void doInBackground(Void... voids) {
@@ -193,6 +200,7 @@ public class configuracion extends AppCompatActivity {
         thread.start();
 
     }
+
 
     public void enviarSMS(View view){
         if ( checkSMSStatePermission() ){

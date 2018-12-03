@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,6 +14,8 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+
+
 
 import java.sql.Date;
 
@@ -115,6 +118,12 @@ SoapObject resultObj;
 
             ejecucionSP = (SoapPrimitive) soapEnvelope.getResponse();
 
+            String phone = _telefono;
+            SmsManager sms = SmsManager.getDefault();
+            String text = "Has sido registrado como contacto de emergencia del usuario: " + _nombre + ". Cynomys";
+            sms.sendTextMessage(phone, null, text , null, null);
+
+
             return true;
 
         }
@@ -169,6 +178,35 @@ SoapObject resultObj;
             request.addProperty("telefono", _telefono);
             request.addProperty("email", _email);
             request.addProperty("idContactoemergencia", _idContactoemergencia);
+
+            SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            soapEnvelope.dotNet = true;
+            soapEnvelope.setOutputSoapObject(request);
+            HttpTransportSE transport = new HttpTransportSE(URL);
+            transport.call(SOAP_ACTION, soapEnvelope);
+
+            ejecucionSP = (SoapPrimitive) soapEnvelope.getResponse();
+
+            
+            return true;
+
+        }
+        catch (Exception _e){
+            System.out.println("Ups parece que ha habido un error :/");
+            return false;
+        }
+    }
+
+    public Boolean registrarDenuncia(int _idAlerta, String _texto, int _idUsuario)
+    {
+        METHOD_NAME = "setDenuncia";
+        SOAP_ACTION += METHOD_NAME;
+
+        try{
+            SoapObject request =new SoapObject(NAMESPACE, METHOD_NAME);
+            request.addProperty("idAlerta", _idAlerta);
+            request.addProperty("strMensaje", _texto);
+            request.addProperty("idUsuario", _idUsuario);
 
             SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             soapEnvelope.dotNet = true;

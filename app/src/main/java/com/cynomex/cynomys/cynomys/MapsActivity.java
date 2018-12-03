@@ -160,31 +160,31 @@ public class MapsActivity extends AppCompatActivity
             LatLng ubicacion = new LatLng(Double.parseDouble(obj.getLat()), Double.parseDouble(obj.getLon()));
             switch (obj.getIdTipoAlerta()){
                 case 1:
-                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8fraude48)));
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8fraude48)));
                     break;
                 case 2:
-                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8pistola48)));
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8pistola48)));
                     break;
                 case 3:
-                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8hombretomadeposesion48)));
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8hombretomadeposesion48)));
                     break;
                 case 4:
-                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8incendios48)));
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8incendios48)));
                     break;
                 case 5:
-                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8combate48)));
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8combate48)));
                     break;
                 case 6:
-                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8manosatadas48)));
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8manosatadas48)));
                     break;
                 case 7:
-                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8racismo48)));
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8racismo48)));
                     break;
                 case 8:
-                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8reparto48)));
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8reparto48)));
                     break;
                 case 9:
-                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdTipoAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8ambulancia48)));
+                    mMap.addMarker(new MarkerOptions().position(ubicacion).title(String.valueOf(obj.getIdAlerta())).icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8ambulancia48)));
                     break;
 
             }
@@ -255,6 +255,7 @@ public class MapsActivity extends AppCompatActivity
                     SoapObject obj= (SoapObject) resultObj.getProperty(i);
 
                     Modelo.Alerta modAlerta = new Modelo.Alerta();
+                    modAlerta.setIdAlerta(Integer.parseInt(obj.getProperty("IdAlerta").toString()));
                     modAlerta.setLat(obj.getProperty("Lat").toString());
                     modAlerta.setLon(obj.getProperty("Lon").toString());
                     modAlerta.setIdTipoAlerta(Integer.parseInt(obj.getProperty("IdTipoAlerta").toString()));
@@ -302,5 +303,12 @@ public class MapsActivity extends AppCompatActivity
     }
 
 
+    public void Denuncia(View view) {
 
-}
+        Intent intent = new Intent(this, denuncia.class);
+        intent.putExtra("idUsuario", idUsuario);
+        startActivity(intent);
+    }
+
+
+    }

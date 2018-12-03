@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 
 import ServiciosWeb.WebService;
+
 
 public class ContactoRegistro extends AppCompatActivity {
 
@@ -90,6 +92,7 @@ public class ContactoRegistro extends AppCompatActivity {
         protected void onPostExecute(Void result) {
 
             if(resultObj) {
+
 
                 Toast.makeText(ContactoRegistro.this, "Contacto Registrado " , Toast.LENGTH_LONG).show();
                 startActivity(intent);
